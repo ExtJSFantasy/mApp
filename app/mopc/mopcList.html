@@ -1,0 +1,782 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" href="../../css/global.css" />
+		<style type="text/css">
+			.mui-table-view .mui-media-object {
+				line-height: 42px;
+				max-width: 6rem !important;
+				height: 42px;
+			}
+			
+			.mui-bar .mui-title {
+				right: 100px;
+				left: 100px;
+				display: inline-block;
+				overflow: hidden;
+				width: auto;
+				/* margin-right: 3rem; */
+				margin: 0;
+				text-overflow: ellipsis;
+			}
+			/*.mui-content {
+				height: 100%;
+			}*/
+			/*.mui-popover {
+				height: 150px;
+			}*/
+			
+			#topPopover {
+				position: absolute;
+				left: 10%;
+				top: 10%;
+				width: 80%;
+				height: 80%;
+			}
+			
+			#disagreePopover {
+				position: absolute;
+				left: 20%;
+				top: 15%;
+				width: 60%;
+				height: 25%;
+			}
+			
+			.wrapper-padding-top {
+				margin-top: 7vh;
+				margin-bottom: 3.5rem;
+			}
+			
+			.md-media-obj {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				margin-top: 1rem;
+				background-color: rgb(149, 168, 172);
+			}
+			
+			.md-media-obj2 {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				margin-top: 1rem;
+				background-color: rgb(146, 161, 184);
+			}
+			
+			.md-media-obj3 {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				margin-top: 1rem;
+				background-color: rgb(212, 153, 119);
+			}
+			
+			.md-media-obj4 {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				margin-top: 1rem;
+				background-color: rgb(215, 154, 198);
+			}
+			
+			.md-media-obj5 {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				margin-top: 1rem;
+				background-color: rgb(199, 212, 106);
+			}
+			
+			.md-changepoint {
+				font-size: 3vh;
+				color: white;
+				margin-left: 5vw;
+				line-height: 5rem;
+			}
+			
+			.md-media-body {
+				display: flex;
+				line-height: 2.3rem;
+				font-size: 2vh;
+				font-weight: 500;
+			}
+			
+			.form-item {
+				display: flex;
+				/*margin-bottom: .5rem;*/
+			}
+			
+			.item-flex {
+				flex: 1;
+				text-align: right;
+			}
+			
+			.label-end {
+				text-align: right;
+				width: 40% !important;
+				font-size: .9rem;
+			}
+			
+			.label-input-gray {
+				font-size: .9rem;
+				border: solid transparent 1px !important;
+				background: transparent;
+				border-color: transparent;
+				width: 59% !important;
+				padding-left: 1rem !important;
+				height: 35px !important;
+				color: #222;
+				text-align: right;
+			}
+			
+			.label-end2 {
+				width: 50% !important;
+				font-size: .9rem;
+			}
+			
+			.label-input-gray2 {
+				font-size: .9rem;
+				width: 50% !important;
+				text-align: left;
+			}
+			
+			.md-title-right {
+				line-height: 44px;
+				padding-top: 20px;
+				color: white;
+			}
+			
+			.md-li-background-color {
+				backgroundColor: #7373f3;
+			}
+			
+			.md-li-background-none {
+				backgroundColor: transparent;
+			}
+			
+			.md-btn-position {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				text-align: center;
+				z-index: 998;
+				overflow: hidden;
+				-webkit-transition-duration: 300ms;
+				transition-duration: 300ms;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				/*background-color: gray;*/
+				display: flex;
+			}
+			
+			.md-btn-select {
+				flex: 1;
+				padding-top: 1rem;
+				padding-bottom: 1rem;
+				background: rgb(8, 74, 146) !important;
+				color: white;
+				font-weight: 700;
+			}
+			
+			.md-btn-common {
+				flex: 1;
+				padding-top: 1rem;
+				padding-bottom: 1rem;
+				background: #4291e7;
+				color: white;
+				font-weight: 700;
+			}
+			
+			.icon-first-check:before {
+				content: "\e918";
+				font-size: 1.7rem;
+				color: green;
+			}
+			
+			.icon-second-check:before {
+				content: "\e917";
+				font-size: 1.7rem;
+				color: green;
+			}
+			
+			.icon-manager:before {
+				content: "\e919";
+				font-size: 1.7rem;
+				color: green;
+			}
+			
+			.a_demo_two {
+				background-color: #3bb3e0;
+				flex: 1;
+				/*padding: 10px;*/
+				padding-top: 1rem;
+				padding-bottom: 1rem;
+				color: white;
+				position: relative;
+				font-family: 'Open Sans', sans-serif;
+				font-size: 12px;
+				text-decoration: none;
+				/*color: #fff;*/
+				background-image: linear-gradient(bottom, rgb(44, 160, 202) 0%, rgb(62, 184, 229) 100%);
+				background-image: -o-linear-gradient(bottom, rgb(44, 160, 202) 0%, rgb(62, 184, 229) 100%);
+				background-image: -moz-linear-gradient(bottom, rgb(44, 160, 202) 0%, rgb(62, 184, 229) 100%);
+				background-image: -webkit-linear-gradient(bottom, rgb(44, 160, 202) 0%, rgb(62, 184, 229) 100%);
+				background-image: -ms-linear-gradient(bottom, rgb(44, 160, 202) 0%, rgb(62, 184, 229) 100%);
+				background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(44, 160, 202)), color-stop(1, rgb(62, 184, 229)));
+				-webkit-box-shadow: inset 0px 1px 0px #7fd2f1, 0px 6px 0px #156785;
+				-moz-box-shadow: inset 0px 1px 0px #7fd2f1, 0px 6px 0px #156785;
+				-o-box-shadow: inset 0px 1px 0px #7fd2f1, 0px 6px 0px #156785;
+				box-shadow: inset 0px 1px 0px #7fd2f1, 0px 6px 0px #156785;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				-o-border-radius: 5px;
+				border-radius: 5px;
+			}
+			
+			.a_demo_two::before {
+				background-color: #072239;
+				content: "";
+				display: block;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				padding-left: 2px;
+				padding-right: 2px;
+				padding-bottom: 4px;
+				left: -2px;
+				top: 5px;
+				z-index: -1;
+				-webkit-border-radius: 6px;
+				-moz-border-radius: 6px;
+				-o-border-radius: 6px;
+				border-radius: 6px;
+				-webkit-box-shadow: 0px 1px 0px #fff;
+				-moz-box-shadow: 0px 1px 0px #fff;
+				-o-box-shadow: 0px 1px 0px #fff;
+				box-shadow: 0px 1px 0px #fff;
+			}
+			
+			.a_demo_two:active {
+				color: #156785;
+				text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3);
+				background: rgb(44, 160, 202);
+				-webkit-box-shadow: inset 0px 1px 0px #7fd2f1, inset 0px -1px 0px #156785;
+				-moz-box-shadow: inset 0px 1px 0px #7fd2f1, inset 0px -1px 0px #156785;
+				-o-box-shadow: inset 0px 1px 0px #7fd2f1, inset 0px -1px 0px #156785;
+				box-shadow: inset 0px 1px 0px #7fd2f1, inset 0px -1px 0px #156785;
+				top: 7px;
+			}
+			
+			.a_demo_two:active::before {
+				top: -2px;
+			}
+			
+			#rightPopover {
+				height: 430px;
+			}
+			
+			.md-media-obj-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: rgb(149, 168, 172);
+			}
+			
+			.md-media-obj2-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: rgb(146, 161, 184);
+			}
+			
+			.md-media-obj3-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: rgb(212, 153, 119);
+			}
+			
+			.md-media-obj4-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: rgb(215, 154, 198);
+			}
+			
+			.md-media-obj5-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: rgb(199, 212, 106);
+			}
+			
+			.md-media-obj6-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: blue;
+			}
+			
+			.md-changepoint-2 {
+				font-size: 2vh;
+				color: white;
+				margin-left: 2.7vw;
+				line-height: 3rem;
+			}
+			
+			.md-disagree-title {
+				font-size: 2vh;
+				font-weight: 600;
+				margin-top: 1vh;
+				margin-left: 1vh;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" id="mopc">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title" id="title" v-text="title"></h1>
+				<a class=" mui-pull-right md-title-right icon-filter" v-show="isShowFilter" href="#rightPopover"></a>
+				<!--<a class=" mui-pull-right md-title-right" @tap="onTapOpenClosedMOPC">变化点已验证清单</a>-->
+			</header>
+			<div id="pullrefresh">
+				<div class="mui-scroll-wrapper wrapper-padding-top">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell" v-for="(mopcData,index) in mopcDatas" v-bind:id="['openOption'+mopcData.subId]" @tap="onTapMOPCItem(mopcData,index)">
+								<a href="javascript:;">
+									<div class="mui-media-object mui-pull-left" v-bind:class="{'md-media-obj':mopcData.changePointType == '人', 'md-media-obj2':mopcData.changePointType =='机','md-media-obj3':mopcData.changePointType =='料','md-media-obj4':mopcData.changePointType =='法','md-media-obj5':mopcData.changePointType =='环'}">
+										<span class="md-changepoint" v-text="mopcData.changePointType"></span>
+									</div>
+									<div class="mui-media-body md-media-body">
+										<div style="flex: 1;font-size: .9rem;">
+											<div class="mui-ellipsis">车型：<span v-text="mopcData.models"></span></div>
+											<div class="mui-ellipsis">产品：<span v-text="mopcData.productName"></span></div>
+											<div class="mui-ellipsis">工位：<span v-text="mopcData.station"></span></div>
+										</div>
+										<div style="flex: 1;">
+											<div class="mui-ellipsis form-item">
+												<div class="mui-input-row item-flex">
+													<label class="label-end">启动日期:</label>
+													<input class="label-input-gray" readonly type="text" v-model="FormatDateYMD(mopcData.startDate)">
+												</div>
+											</div>
+											<div class="mui-ellipsis form-item">
+												<div class="mui-input-row item-flex">
+													<label class="label-end">计划关闭日期:</label>
+													<input class="label-input-gray" readonly type="text" v-model="FormatDateYMD(mopcData.plansToCloseDate)">
+												</div>
+											</div>
+											<div class="mui-ellipsis form-item">
+												<span class="item-flex" :class="{'icon-first-check':mopcData.firstCloseTime != null}"></span><span class="item-flex" :class="{'icon-second-check':mopcData.secondCloseTime != null}"></span><span class="item-flex" :class="{'icon-manager':mopcData.actualClosingDate != null}"></span>
+											</div>
+											<!--<div class="mui-ellipsis" v-show="mopcData.firstCloseTime != null" style="font-size: .9rem;
+    font-weight: 500;
+    color: red;"><span>一次关闭日期：</span><span v-text="FormatDateYMDHMS(mopcData.firstCloseTime).replace('T',' ')"></span></div>-->
+										</div>
+
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="md-btn-position">
+					<button type="button" class="a_demo_two" :class="{'md-btn-select':isSelect1 == true}" @tap="onTapBtnLeft">变化点待验证清单</button>
+					<button type="button" class="a_demo_two" style="" :class="{'md-btn-select':isSelect2 == true}" @tap="onTapBtnRight">变化点已验证清单</button>
+				</div>
+			</div>
+			<div id="topPopover" class="mui-popover mui-popover-bottom">
+				<div class="form-item">
+					<div class="mui-input-row item-flex">
+						<label class="label-end2">创建日期:</label>
+						<input class="label-input-gray2" type="text" readonly v-model="FormatDateYMD(commentData.createDate)">
+					</div>
+					<div class="mui-input-row item-flex">
+						<label class="label-end2">工序:</label>
+						<input class="label-input-gray2" readonly type="text" v-model="commentData.station">
+					</div>
+				</div>
+
+				<div class="form-item">
+					<div class="mui-input-row item-flex">
+						<label class="label-end2">变化类型:</label>
+						<input class="label-input-gray2" type="text" readonly v-model="commentData.changePointType">
+					</div>
+					<div class="mui-input-row item-flex">
+						<label class="label-end2">变化等级:</label>
+						<input class="label-input-gray2" readonly type="text" v-model="commentData.changePointLevel">
+					</div>
+				</div>
+				<label style="margin-left: 1rem;">变化内容:</label>
+				<textarea id="remark" rows="5" style="margin-top: .5rem;" disabled v-model="commentData.describe"></textarea>
+				<label style="margin-left: 1rem;">控制验证方法:</label>
+				<textarea id="remark" rows="5" style="margin-top: .5rem;" disabled v-model="commentData.validationMethod"></textarea>
+				<div>
+					<div class="mui-button-row">
+						<button type="button" class="mui-btn mui-btn-primary" v-text="showBtn" @tap="onTapEnsure(commentData)"></button>
+						<button type="button" class="mui-btn mui-btn-primary" @tap="onTapDisagree(commentData)">不同意变更</button>
+					</div>
+				</div>
+
+			</div>
+			<div id="rightPopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell" v-for="(filterData,index) in filterDatas" @tap="onTapFilter(filterData)">
+								<a href="#">
+									<div class="mui-media-object mui-pull-left" v-bind:class="{'md-media-obj-2':filterData.type == '人', 'md-media-obj2-2':filterData.type =='机','md-media-obj3-2':filterData.type =='料','md-media-obj4-2':filterData.type =='法','md-media-obj5-2':filterData.type =='环','md-media-obj6-2':filterData.type =='全'}">
+										<span class="md-changepoint-2" v-text="filterData.type"></span>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div id="disagreePopover" class="mui-popover mui-popover-bottom">
+				<div style="margin-top: 1vh;"></div>
+				<label class="md-disagree-title">不同意原因：</label>
+				<textarea id="remark" rows="5" style="margin-top: .5rem;" v-model="nokReason"></textarea>
+				<div>
+					<div class="mui-button-row">
+						<button type="button" class="mui-btn mui-btn-primary" @tap="onTapDisagreeEnsure(commentData)">确定</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js"></script>
+		<script type="text/javascript" src="../../config.js"></script>
+		<script type="text/javascript" src="../../js/function.js"></script>
+		<script type="text/javascript" src="../../js/static.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				beforeback: function() {　　　　 //获得父页面的webview
+					var list = plus.webview.currentWebview().opener();　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+					mui.fire(list, 'refresh');
+					//返回true,继续页面关闭逻辑
+					return true;
+				}
+			});
+			new Vue({
+				el: '#mopc',
+				data: {
+					mopcDatas: [],
+					commentData: {},
+					showBtn: '班长 确认',
+					isSelect1: true,
+					isSelect2: false,
+					title: '变化点待验证清单',
+					isShowFilter: false,
+					nokReason: '',
+					filterDatas: [{
+							id: 1,
+							type: '全'
+						},
+						{
+							id: 2,
+							type: '人'
+						},
+						{
+							id: 3,
+							type: '机'
+						},
+						{
+							id: 4,
+							type: '料'
+						},
+						{
+							id: 5,
+							type: '法'
+						},
+						{
+							id: 6,
+							type: '环'
+						}
+					]
+				},
+				created: function() {
+					var _this = this;
+					//this.initData();
+					/*mui.init({
+						pullRefresh: {
+							container: '#pullrefresh',
+							down: {
+								style: 'circle',
+								callback: _this.pulldownRefresh
+							},
+							up: {
+								auto: true,
+								contentrefresh: '正在加载...',
+								callback: _this.pullupRefresh
+							}
+						}
+					});*/
+
+				},
+				mounted: function() {
+					var _this = this;
+					//console.log(JSON.parse(getLsItem("mopcData")));
+					mui('.mui-scroll-wrapper').scroll({
+						indicators: true //是否显示滚动条
+					});
+					var oldback = mui.back;
+					mui.back = function() {
+						mui.confirm("确定退出？", "变更管理", ["确定", "取消"], function(e) {
+							if(e.index == 0) {
+								oldback();
+							}
+						})
+					}
+
+					/*var _subId = getLsItem("mopcItemSubId");
+					_this.mopcDatas.forEach(function(item, index) {
+						if(item.subId == _subId) {
+							console.log(1111);
+							document.getElementById("openOption" + item.subId).style.backgroundColor = '#7373f3'
+						} else {
+							document.getElementById("openOption" + item.subId).style.backgroundColor = 'transparent'
+						}
+					})*/
+					_this.initData();
+				},
+				methods: {
+					initData: function() {
+						var _this = this;
+						//var _subId = getLsItem("mopcItemSubId");
+						//console.log(_subId);
+						mAjax(_url + "hstserver/getMOPCLists", {}, function(data) {
+							_this.mopcDatas = data.data;
+						})
+						/*_this.mopcDatas.forEach(function(item, index) {
+							if(item.subId == _subId) {
+								document.getElementById("openOption" + item.subId).style.backgroundColor = '#7373f3'
+							} else {
+								document.getElementById("openOption" + item.subId).style.backgroundColor = 'transparent'
+							}
+						})*/
+
+					},
+					onTapMOPCItem: function(data, index) {
+						var _this = this;
+						if(data.actualClosingDate != null) {
+							setLsItem("mopcItem", JSON.stringify(data));
+							mui.openWindow({
+								url: 'mopcDealWith.html',
+								id: 'mopcDealWith'
+							})
+							return
+						}
+						if(data.secondCloseTime != null) {
+							_this.showBtn = '主管 确认';
+						} else {
+							_this.showBtn = '班长 确认';
+						}
+						_this.commentData = data;
+						mui('#topPopover').popover("toggle");
+						setLsItem("mopcItemSubId", data.subId);
+						//mui('#topPopover').popover("toggle", document.getElementById("openOption" + data.id));
+						_this.mopcDatas.forEach(function(item, index) {
+							if(item.subId == data.subId) {
+								document.getElementById("openOption" + item.subId).style.backgroundColor = '#7373f3'
+							} else {
+								document.getElementById("openOption" + item.subId).style.backgroundColor = 'transparent'
+							}
+						})
+					},
+					onTapEnsure: function(item) {
+						var _this = this;
+						var _userData = JSON.parse(getLsItem("mopcData"));
+						//_this.upScreen(item);
+						if(_this.showBtn == '主管 确认') {
+							mAjax(_url + "hstserver/verifyManager", {
+								userNo: _userData.userNo
+							}, function(data) {
+								if(data.success == 1 && data.data.length > 0) {
+									_this.upDateMOPCList(item);
+								} else {
+									mui.toast("您不是主管级 ！！！")
+								}
+							})
+						} else {
+							_this.upDateMOPCList(item);
+						}
+
+					},
+					upDateMOPCList: function(item) {
+						var _this = this;
+						var _userData = JSON.parse(getLsItem("mopcData"));
+						mAjax(_url + "hstserver/updateMOPCLists", {
+							userName: _userData.userName,
+							userNo: _userData.userNo,
+							userDescription: _userData.userDescription,
+							subId: item.subId
+						}, function(data) {
+							mui('#topPopover').popover("toggle");
+							_this.upScreen(item);
+							_this.initData();
+						})
+					},
+					onTapOpenClosedMOPC: function() {
+						mui.openWindow({
+							url: 'overCloseLists.html',
+							id: 'overCloseLists'
+						})
+					},
+					pulldownRefresh: function() {
+						console.log(11111111);
+					},
+					pullupRefresh: function() {
+						console.log(22222222);
+					},
+					upScreen: function(data) {
+						//return;
+						var _this = this;
+						mAjax(_url + "hstserver/getFactoryMOPCLists", {
+							stationId: data.stationSubId
+						}, function(data) {
+							//console.log(data);
+							_this.postKanBan(data);
+						})
+
+					},
+					postKanBan: function(data) {
+						mui.ajax('http://192.168.75.223:3001', {
+							data: {
+								factoryName: data.data[0].factoryName,
+								factorySubId: data.data[0].factorySubId,
+								workshopName: data.data[0].workshopName,
+								workshopSubId: data.data[0].workshopSubId
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								//console.log(data);
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					onTapBtnLeft: function() {
+						var _this = this;
+						if(_this.isSelect1) {
+
+						} else {
+							_this.title = '变化点待验证清单';
+							_this.isShowFilter = false;
+							_this.isSelect1 = !_this.isSelect1;
+							_this.isSelect2 = !_this.isSelect2;
+							_this.initData();
+						}
+
+					},
+					onTapBtnRight: function() {
+						var _this = this;
+						if(_this.isSelect2) {
+
+						} else {
+							_this.title = '变化点已验证清单';
+							_this.isSelect1 = !_this.isSelect1;
+							_this.isSelect2 = !_this.isSelect2;
+							_this.isShowFilter = true;
+							_this.mopcDatas.forEach(function(item, index) {
+								document.getElementById("openOption" + item.subId).style.backgroundColor = 'transparent'
+							})
+							mAjax(_url + "hstserver/getHistoryMOPCLists", {}, function(data) {
+								//console.log(data.data);
+								_this.mopcDatas = data.data;
+							})
+						}
+					},
+					onTapFilter: function(item) {
+						var _this = this;
+						mui('#rightPopover').popover("toggle");
+						mAjax(_url + "hstserver/getFilterMOPCLists", {
+							type: item.type
+						}, function(data) {
+							_this.mopcDatas = data.data;
+						})
+					},
+					onTapDisagree: function(item) {
+						mui('#disagreePopover').popover("toggle");
+					},
+					onTapDisagreeEnsure: function(item) {
+						var _this = this;
+						var _name1 = "向德山";
+						var _name2 = "丁孝龙";
+						//var _arr = [_name1, _name2];
+						//console.log(_arr.join(','))
+						mAjax(_url + "hstserver/closeChange", {
+							subId: item.subId,
+							nokReason: _this.nokReason
+						}, function(data) {
+							/*mAjax(_url + "hstserver/sendEmail", {
+								factoryName: item.factoryName,
+								workshopName: item.workshopName,
+								station: item.station,
+								startDate: FormatDateYMD(item.startDate),
+								clientName: item.clientName,
+								model: item.models,
+								pname: item.productName,
+								pno: item.productNo,
+								ensureUser: item.theVerifier,
+								users: item.createUser,
+								nokReason: _this.nokReason
+							}, function(data2) {
+								_this.nokReason = '';
+								mui('#disagreePopover').popover("toggle");
+								_this.upScreen(item);
+								_this.initData();
+							})*/
+							_this.nokReason = '';
+							mui('#disagreePopover').popover("toggle");
+							_this.upScreen(item);
+							_this.initData();
+						})
+						/*@factoryName nvarchar(50),		--工厂
+						@workshopName nvarchar(50),		--车间
+						@station nvarchar(50),			--工位
+						@startDate nvarchar(30),		--变化点启动日期
+						@clientName nvarchar(50),		--客户名
+						@model nvarchar(50),			--车型
+						@pname nvarchar(50),			--品名
+						@pno nvarchar(50),				--品号
+						@nokReason nvarchar(500),		--退回原因
+						@users nvarchar(100)*/
+
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

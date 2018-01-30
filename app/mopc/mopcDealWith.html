@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" href="../../css/global.css" />
+		<style type="text/css">
+			.form-item {
+				display: flex;
+				margin: 1rem;
+			}
+			
+			.item-flex {
+				flex: 1;
+			}
+			
+			.label-end {
+				font-size: .9rem;
+				font-weight: 600;
+				text-align: left;
+				width: 40% !important;
+			}
+			/*.label-input-gray {
+				height: 30px !important;
+				border: solid 1px !important;
+				background: #efeff4 !important;
+				border-color: #999 !important;
+				padding-left: 1rem !important;
+				color: gray;
+			}*/
+			
+			.label-input-gray {
+				font-size: .9rem;
+				text-align: left;
+				border: solid transparent 1px !important;
+				background: transparent;
+				border-color: transparent;
+				width: 60% !important;
+				padding-left: 1rem !important;
+				height: 35px !important;
+				color: #222;
+			}
+			
+			.md-title {
+				font-size: 1.5rem;
+				font-weight: 600;
+				margin-left: .3rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" id="mopcDealWith">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title" id="title">变化点详情</h1>
+			</header>
+			<div style="margin-top: 8vh;">
+				<div class="md-title">变化点内容</div>
+				<div class="form-item">
+					<div class="mui-input-row item-flex">
+						<label class="label-end">启动日期:</label>
+						<input class="label-input-gray" type="text" readonly v-model="FormatDateYMD(commentData.startDate)">
+					</div>
+					<div class="mui-input-row item-flex">
+						<label class="label-end">工位:</label>
+						<input class="label-input-gray" readonly type="text" v-model="commentData.station">
+					</div>
+				</div>
+				<div class="form-item">
+					<div class="mui-input-row item-flex">
+						<label class="label-end">变化类型:</label>
+						<input class="label-input-gray" type="text" readonly v-model="commentData.changePointType">
+					</div>
+					<div class="mui-input-row item-flex">
+					</div>
+
+				</div>
+				<!--<div class="form-item">
+					<div class="mui-input-row item-flex">
+						<label class="label-end">变化类型:</label>
+						<input class="label-input-gray" type="text" readonly v-model="commentData.changePointType">
+					</div>
+				</div>-->
+				<label style="margin-left: 1rem;">变化内容:</label>
+				<textarea id="remark" rows="5" style="margin-top: .5rem;" disabled v-model="commentData.describe"></textarea>
+				<div class="md-title">变化点控制</div>
+
+				<div class="form-item">
+					<div class="mui-input-row">
+						<label class="label-end" style="text-align: left;width: 35% !important;">变化等级:</label>
+						<input class="label-input-gray" style="text-align: left;width: 65% !important;" readonly type="text" v-model="commentData.changePointLevel">
+					</div>
+					<div class="mui-input-row item-flex">
+					</div>
+					<div class="mui-input-row item-flex">
+					</div>
+				</div>
+				<label style="margin-left: 1rem;">控制验证方法:</label>
+				<textarea id="remark" rows="5" style="margin-top: .5rem;" disabled v-model="commentData.validationMethod"></textarea>
+				<div class="md-title">变化点验证</div>
+				<div class="form-item">
+					<div class="mui-input-row item-flex">
+						<label class="label-end">一次:</label>
+						<input class="label-input-gray" type="text" readonly v-model="FormatDateYMD(commentData.firstCloseTime)">
+					</div>
+					<div class="mui-input-row item-flex">
+						<label class="label-end">确认人:</label>
+						<input class="label-input-gray" type="text" readonly v-model="commentData.firstCloseUserDescription">
+					</div>
+				</div>
+				<div class="form-item">
+					<div class="mui-input-row item-flex">
+						<label class="label-end">二次:</label>
+						<input class="label-input-gray" readonly type="text" v-model="FormatDateYMD(commentData.secondCloseTime)">
+					</div>
+					<div class="mui-input-row item-flex">
+						<label class="label-end">确认人:</label>
+						<input class="label-input-gray" type="text" readonly v-model="commentData.secondCloseUserDescription">
+					</div>
+				</div>
+				<div class="form-item">
+					<div class="mui-input-row item-flex">
+						<label class="label-end">主管:</label>
+						<input class="label-input-gray" type="text" readonly v-model="FormatDateYMD(commentData.managerCloseTime)">
+					</div>
+					<div class="mui-input-row item-flex">
+						<label class="label-end">确认人:</label>
+						<input class="label-input-gray" type="text" readonly v-model="commentData.managerCloseUserDescription">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js"></script>
+		<script type="text/javascript" src="../../config.js"></script>
+		<script type="text/javascript" src="../../js/function.js"></script>
+		<script type="text/javascript" src="../../js/static.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			new Vue({
+				el: '#mopcDealWith',
+				data: {
+					commentData: {}
+				},
+				mounted: function() {
+					var _this = this;
+					_this.commentData = JSON.parse(getLsItem("mopcItem"));
+					console.log(JSON.parse(getLsItem("mopcItem")));
+				},
+				methods: {
+
+				}
+			})
+		</script>
+	</body>
+
+</html>

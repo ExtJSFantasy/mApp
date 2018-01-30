@@ -1,0 +1,479 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/global.css" />
+		<!--<link rel="stylesheet" href="../../css/index.css">-->
+		<link rel="stylesheet" href="../../css/swiper-3.3.1.min.css">
+		<link rel="stylesheet" href="../../css/style.css" />
+		<script type="text/javascript" src="../../js/static.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-1.11.0.js"></script>
+		<script type="text/javascript" src="../../js/swiper-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../js/calendar.js"></script>
+		<script type="text/javascript" src="../../js/function.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js"></script>
+		<style type="text/css">
+			body {
+				background-color: white !important;
+			}
+			
+			.mui-content {
+				background-color: white;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.avater {
+				position: relative;
+				width: 3.4em;
+				height: 3.4em;
+				line-height: 3.4em;
+				-webkit-border-radius: 9em;
+				-moz-border-radius: 9em;
+				-ms-border-radius: 9em;
+				/* border-radius: 9em; */
+				text-align: center;
+				color: #999;
+				border: 1px solid #999;
+				margin-right: .4em;
+			}
+			
+			.select_color31 {
+				position: relative;
+				width: 3.4em;
+				height: 3.4em;
+				line-height: 3.4em;
+				-webkit-border-radius: 9em;
+				-moz-border-radius: 9em;
+				-ms-border-radius: 9em;
+				/* border-radius: 9em; */
+				text-align: center;
+				color: #a627c4;
+				border: 1px solid #a627c4;
+				margin-right: .4em;
+			}
+			
+			.avater2 {
+				position: relative;
+				width: 3.4em;
+				height: 3.4em;
+				line-height: 3.4em;
+				-webkit-border-radius: 9em;
+				-moz-border-radius: 9em;
+				-ms-border-radius: 9em;
+				/* border-radius: 9em; */
+				text-align: center;
+				color: #909090;
+				border: 1px solid #909090;
+				margin-right: .4em;
+				background: #0aaa0a;
+			}
+			
+			.isOver {
+				color: #0062cc;
+				font-weight: 700;
+			}
+			
+			#listPopover {
+				position: absolute;
+				left: 10%;
+				top: 10%;
+				width: 80%;
+				height: 80%;
+			}
+			
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			ul {
+				list-style: none;
+			}
+			
+			#schedule-box {
+				width: 100%;
+				margin: 0 auto;
+				/*padding: 35px 20px;*/
+				padding: 4rem 21px;
+				font-size: 2rem;
+			}
+			
+			.schedule-hd {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 2rem;
+				border: solid 1px;
+				border-top-color: transparent;
+				border-left-color: transparent;
+				border-right-color: transparent;
+			}
+			
+			.today {
+				flex: 4;
+				text-align: left;
+				font-size: 3rem;
+			}
+			
+			.ul-box {
+				overflow: hidden;
+			}
+			
+			.ul-box>li {
+				float: left;
+				width: 14.28%;
+				text-align: center;
+				padding: 5px 0;
+			}
+			
+			.other-month {
+				color: #999999;
+			}
+			
+			.current-month {
+				color: #333333;
+				position: relative;
+			}
+			
+			.today-style {
+				border-radius: 50%;
+				background: #58d321;
+			}
+			
+			.arrow {
+				cursor: pointer;
+			}
+			
+			.dayStyle {
+				display: inline-block;
+				width: 3rem;
+				height: 3rem;
+				border-radius: 50%;
+				text-align: center;
+				line-height: 3rem;
+				cursor: pointer;
+				font-size: 1.5rem;
+			}
+			/*.current-month>.dayStyle:hover {
+				background: #00BDFF;
+				color: #ffffff;
+			}*/
+			
+			.xuanzhong {
+				background-color: #ddd;
+				color: white;
+				border-radius: 50%;
+			}
+			/*.currentDate {
+				background: #00BDFF;
+				color: #ffffff;
+			}*/
+			
+			.today-flag {
+				background: #dc4e49;
+				color: #fff;
+			}
+			
+			.boxshaw {
+				box-shadow: 2px 2px 15px 2px #e3e3e3;
+			}
+			
+			.selected-style {
+				/*background: #00BDFF;
+				color: #ffffff;*/
+				background-color: #ddd;
+				color: white;
+				border-radius: 50%;
+			}
+			
+			#h3Ele {
+				text-align: center;
+				padding: 10px;
+			}
+			
+			.select_color {
+				width: .8rem;
+				height: .8rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 2rem;
+				bottom: 2px;
+				background: red;
+				border-radius: 50%;
+			}
+			
+			.select_color4 {
+				width: .8rem;
+				height: .8rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 2rem;
+				bottom: 2px;
+				background: #ECF91D;
+				border-radius: 50%;
+			}
+			
+			.select_color2 {
+				width: .8rem;
+				height: .8rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 2rem;
+				bottom: 2px;
+				background: #aaa;
+				border-radius: 50%;
+			}
+			
+			.select_color3 {
+				width: .8rem;
+				height: .8rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 2rem;
+				bottom: 2px;
+				background: #F91E1E;
+				border-radius: 50%;
+			}
+			
+			.select_color5 {
+				width: .8rem;
+				height: .8rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 2rem;
+				bottom: 2px;
+				background: #2AC52A;
+				border-radius: 50%;
+			}
+			
+			.select_color1 {
+				width: .8rem;
+				height: .8rem;
+				position: absolute;
+				/* padding-right: 3rem; */
+				right: 2rem;
+				bottom: 2px;
+				background: #9C27B0;
+				border-radius: 50%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" id='app'>
+			<header class="mui-bar mui-bar-nav" style="">
+				<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
+				<h1 class="mui-title" id="title" style="font-size: 2rem;">审核计划</h1>
+				<!--<a class="mui-icon icon-jin mui-pull-right" id="today"></a>-->
+
+			</header>
+			<div id='schedule-box' class="boxshaw">
+
+			</div>
+			<ul class="mui-table-view" style="margin: .5rem;">
+				<li class="mui-table-view-cell mui-media" id="lpaList" v-for="(lpaList,index) in lpaLists" @tap="onTapLpaContent(lpaList)">
+					<a href="javascript:;">
+						<div class="mui-media-object mui-pull-left " v-bind:class="{'avater':lpaList.createDate == null, 'avater2':lpaList.createDate != null}">
+							<span v-show="lpaList.createDate == null">未</span>
+							<span class="isOver" v-show="lpaList.createDate != null">已</span>
+						</div>
+						<!--<div class="mui-media-body" style="">
+							{{lpaList.field01}}
+							<p class="mui-ellipsis">{{lpaList.listName}}</p>
+						</div>-->
+						<div class="mui-media-body" style="display: flex;">
+							<div style="flex: 1;">
+								{{lpaList.field01}}
+								<div class="mui-ellipsis">{{lpaList.listName}}</div>
+							</div>
+							<div>{{FormatDateYMD(lpaList.workDate)}}</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<div>
+				<h3 id='h3Ele'></h3>
+			</div>
+			<div style="display: flex;bottom: .5rem;position: fixed;width: 100%;margin-left: .5rem;">
+				<div style="flex: 1;">
+					<div style="display: flex;">
+						<div style="width: 12px;
+    height: 12px;
+    background: #F91E1E;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;">
+						</div>
+						<span style="flex: 1;line-height: 1rem;margin-left: .5rem;font-size: .9rem;">超时未审核</span>
+					</div>
+				</div>
+				<div style="flex: 1;">
+					<div style="display: flex;">
+						<div style="width: 12px;
+    height: 12px;
+    background: #ECF91D;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;">
+						</div>
+						<span style="flex: 1;line-height: 1rem;margin-left: .5rem;font-size: .9rem;">超时审核</span>
+					</div>
+				</div>
+				<div style="flex: 1;">
+					<div style="display: flex;">
+						<div style="width: 12px;
+    height: 12px;
+    background: #9C27B0;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;">
+						</div>
+						<span style="flex: 1;line-height: 1rem;margin-left: .5rem;font-size: .9rem;">提前审核</span>
+					</div>
+				</div>
+				<div style="flex: 1;">
+					<div style="display: flex;">
+						<div style="width: 12px;
+    height: 12px;
+    background: #2AC52A;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;">
+						</div>
+						<span style="flex: 1;line-height: 1rem;margin-left: .5rem;font-size: .9rem;">正常审核</span>
+					</div>
+				</div>
+				<div style="flex: 1;">
+					<div style="display: flex;">
+						<div style="width: 12px;
+    height: 12px;
+    background: #aaa;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;">
+						</div>
+						<span style="flex: 1;line-height: 1rem;margin-left: .5rem;font-size: .9rem;">有审核任务</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../config.js"></script>
+		<script type="text/javascript" src="../../js/schedule.js"></script>
+		<script type="text/javascript">
+			new Vue({
+				el: '#app',
+				data: {
+					lpaLists: [],
+					selecList: {},
+					lists: [],
+					isPC: false,
+					isDay: 0
+				},
+				mounted: function() {
+					var _this = this;
+					mui.init({
+						beforeback: function() {　　　　 //获得父页面的webview
+							var list = plus.webview.currentWebview().opener();　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+							mui.fire(list, 'refresh');
+							//返回true,继续页面关闭逻辑
+							return true;
+						}
+					});
+					window.addEventListener('refreshData', function(e) { //执行刷新
+						//console.log("刷新");
+						location.reload();
+					});
+					var oldback = mui.back;
+					mui.back = function() {
+						mui.confirm("确定退出？", "EQMSLPA", ["确定", "取消"], function(e) {
+							if(e.index == 0) {
+								oldback();
+							}
+						})
+					}
+					//mySchedule.clickCb()
+					var _userData = JSON.parse(getLsItem("loginData"));
+					var _date = new Date();
+					var month = _date.getMonth() + 1;
+					var _month2 = month < 10 ? "0" + month : month;
+					var date2 = _date.getDate();
+					var mySchedule = new Schedule({
+						el: '#schedule-box',
+						clickCb: function(y, m, d) {
+
+							var _month = m < 10 ? ("0" + m) : m;
+							var _day = d < 10 ? ("0" + d) : d;
+							_this.isDay = _day;
+							mAjax(_url + 'hstserver/getTaskView', {
+								auditDate: y + "-" + _month + "-" + _day,
+								auditID: _userData.userName
+								//factoryId:_userData.factoryId,
+								//factoryName:_userData.factoryName
+							}, function(data) {
+								if(data.success == 1) {
+									_this.lpaLists = data.data;
+								} else {
+									_this.lpaLists = [];
+								}
+							})
+						},
+						nextMonthCb: function(y, m, d) {
+							var _month = m < 10 ? ("0" + m) : m;
+							$('#title').text(y + "-" + _month);
+							if(_month == _month2) {
+								//console.log(111111);
+								_this.selectTody();
+							} else {
+								_this.lpaLists = [];
+							}
+							//console.log(y + "---" + m + "---" + d);
+						},
+						prevMonthCb: function(y, m, d) {
+							var _month = m < 10 ? ("0" + m) : m;
+							$('#title').text(y + "-" + _month);
+							if(_month == _month2) {
+								//console.log(111111);
+								_this.selectTody();
+							} else {
+								_this.lpaLists = [];
+							}
+						}
+					});
+					_this.selectTody();
+				},
+				methods: {
+					onTapLpaContent: function(item) {
+						var _this = this;
+						setLsItem("itemList", JSON.stringify(item))
+						mui.openWindow({
+							url: 'itemList.html',
+							id: 'itemList'
+						})
+					},
+					selectTody: function() {
+						var _this = this;
+						var _userData = JSON.parse(getLsItem("loginData"));
+						mAjax(_url + 'hstserver/getTaskView', {
+							auditDate: FormatDateYMD(new Date()),
+							auditID: _userData.userName
+							//factoryId:_userData.factoryId,
+							//factoryName:_userData.factoryName
+						}, function(data) {
+							if(data.success == 1) {
+								//console.log(JSON.stringify(data.data));
+								_this.lpaLists = data.data;
+							} else {
+								_this.lpaLists = [];
+							}
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

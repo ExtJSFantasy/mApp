@@ -1,0 +1,847 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" href="../../css/global.css" />
+		<style type="text/css">
+			body,
+			html {
+				height: 100%;
+				width: 100%;
+			}
+			
+			.form-title {
+				/*position: fixed;
+				z-index: 10;
+				width: 100%;
+				background: white;*/
+				z-index: 999;
+				position: fixed;
+				width: 100%;
+				background: white;
+			}
+			
+			.selectcheckmark {
+				color: green !important;
+			}
+			
+			.select_na {
+				color: #777 !important;
+			}
+			
+			.selectNok {
+				color: red !important;
+			}
+			
+			#assessorPopover {
+				position: absolute;
+				left: 5% !important;
+				/*top: 5%;*/
+				width: 90%;
+				height: 80%;
+			}
+			
+			#areaPopover {
+				position: absolute;
+				left: 10%;
+				top: 10%;
+				width: 80%;
+				height: 80%;
+			}
+			
+			#assessorProductPopover {
+				position: absolute;
+				left: 10%;
+				top: 10%;
+				width: 80%;
+				height: 80%;
+			}
+			
+			#productGroup {
+				position: absolute;
+				left: 10%;
+				top: 10%;
+				width: 80%;
+				height: 80%;
+			}
+			
+			.isActive {
+				border: solid 1px red;
+				box-shadow: 10px 10px 5px #ef0f07;
+			}
+			
+			.indexed-list a {
+				display: block;
+				text-align: center;
+				font-size: 11px;
+				padding: 0px;
+				margin: 0px;
+				line-height: 15px;
+				color: #aaa;
+				line-height: 1.7rem;
+			}
+			
+			.select_letter {
+				background: #5050e1;
+			}
+			
+			.mui-table-view-cell.mui-active {
+				background-color: transparent;
+			}
+			/*.mui-popover {
+				position: absolute;
+				z-index: 999;
+				display: none;
+				width: 280px;
+				height: 80%;
+				width: 80%;
+				-webkit-transition: opacity .3s;
+				transition: opacity .3s;
+				-webkit-transition-property: opacity;
+				transition-property: opacity;
+				-webkit-transform: none;
+				transform: none;
+				opacity: 0;
+				border-radius: 7px;
+				background-color: #f7f7f7;
+				-webkit-box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+				box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+			}*/
+			
+			.md-background {
+				height: 100%;
+				background: white;
+			}
+			
+			.content-background {
+				background: white;
+				z-index: 999;
+			}
+			
+			.form-item {
+				display: flex;
+				margin: 1rem;
+			}
+			
+			.item-flex {
+				flex: 1;
+			}
+			
+			.label-end {
+				text-align: end;
+			}
+			
+			.label-input-gray {
+				border: solid 1px !important;
+				background: #efeff4 !important;
+				border-color: #999 !important;
+				padding-left: 1rem !important;
+				color: gray;
+			}
+			
+			.label-input-arrow {
+				border: solid 1px !important;
+				background: #efeff4 !important;
+				border-color: #999 !important;
+				padding-left: 1rem !important;
+				background: url(../../images/arrow.png) right center no-repeat !important;
+			}
+			
+			.wrapper-padding {
+				padding-top: 15rem;
+				padding-bottom: 4.5rem;
+			}
+			
+			.wrapper-ul-li {
+				display: flex;
+				font-size: 1rem;
+			}
+			
+			.wrapper-ul-li-item {
+				flex: 5;
+				line-height: 1.5rem;
+			}
+			
+			.wrapper-ul-li-item-check {
+				flex: 1;
+				display: flex;
+			}
+			
+			.wrapper-ul-li-item-check-item {
+				flex: 1;
+				color: #bbb;
+				font-size: 1.5rem;
+			}
+			
+			.btn-save {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				text-align: center;
+				z-index: 998;
+				overflow: hidden;
+				-webkit-transition-duration: 300ms;
+				transition-duration: 300ms;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				background-color: gray;
+			}
+			
+			.btn-save-button {
+				width: 100%;
+				font-size: 2rem;
+				background: #4291e7;
+				color: white;
+			}
+			
+			.mui-table-view:before {
+				position: absolute;
+				right: 0;
+				left: 0;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: transparent;
+				top: -1px;
+			}
+			
+			.mui-table-view-cell:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 15px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: transparent;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content md-background" id="app">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title" id="title">审核清单</h1>
+			</header>
+			<div class="mui-content  content-background" style="">
+				<div class="form-title">
+
+					<div class="form-item">
+						<div class="mui-input-row item-flex">
+							<label class="label-end">审核日期:</label>
+							<input class="label-input-gray" type="text" readonly v-model="lpaDate">
+						</div>
+						<div class="mui-input-row item-flex">
+							<label class="label-end">审核人:</label>
+							<input class="label-input-gray" readonly type="text" v-model="lpaUser">
+						</div>
+					</div>
+					<div style="" class="form-item">
+						<div class="mui-input-row item-flex">
+							<label class="label-end">清单名称:</label>
+							<input class="label-input-gray" type="text" style="font-size: .7rem;" v-model="lineTitle">
+						</div>
+						<div class="mui-input-row item-flex">
+							<label class="label-end">产线:</label>
+							<input class="label-input-gray" readonly type="text" v-model="lineName">
+						</div>
+					</div>
+					<div class="form-item">
+						<div class="mui-input-row" style="width: 50%;">
+							<label class="label-end">班次:</label>
+							<!--<input id="assessor" class="label-input-arrow" readonly type="text" value="aa,bb,ccc">-->
+							<select v-model="classes" class="label-input-arrow">
+								<option v-for="option in options" v-bind:value="option.value">
+									{{ option.text }}
+								</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<!--<div class="mui-text-center" v-text="formTitle" style="font-size: 1.5rem;padding-top: .5rem;"></div>-->
+				<!--<div class="" v-text="lineTitle" style="font-size: 1.6rem;padding-top: .7rem;text-align: center;">审核清单</div>-->
+				<!--<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>责任部门</label>
+						<input type="text" readonly placeholder="" style="background: url(../../images/arrow.png) right center no-repeat;">
+					</div>
+				</form>-->
+				<div class="mui-content" style="">
+					<div id="scroll" class="mui-scroll-wrapper wrapper-padding">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell mui-active" v-for="(lpaData, index) in listData">
+									<a href="#" style="font-weight: 900;">{{lpaData.name}}</a>
+									<div class="mui-collapse-content">
+										<ul class="mui-table-view">
+											<li class="mui-table-view-cell" v-for="(lpaItem,index1) in lpaData.data" style="display: flex;">
+												<span class="wrapper-ul-li-item">{{index1+1}}.{{lpaItem.itemName}}</span>
+												<div class="wrapper-ul-li-item-check">
+													<span class="icon-checkmark wrapper-ul-li-item-check-item" v-bind:class="{selectcheckmark:lpaItem.auditResult == '符合'}" @tap="onTapOk(lpaItem,index1)"></span>
+													<span class="icon-NA wrapper-ul-li-item-check-item" :class="{select_na:lpaItem.auditResult == '不适用'}" @tap="onTapNa(lpaItem,index1)"></span>
+													<span class="icon-cross wrapper-ul-li-item-check-item" style="" :class="{selectNok:lpaItem.auditResult == '不符合'}" @tap="onTapGoCross(lpaItem,index1)"></span>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="btn-save">
+					<button class="btn-save-button" @tap="onTapSaveList">提交</button>
+				</div>
+			</div>
+			<div id="assessorPopover" class="mui-popover">
+				<div class="mui-input-row mui-search" style="width: 80%;margin: auto;margin-top: 1rem;">
+					<input type="search" v-model="assessor" class="" placeholder="" v-on:input="searchAssessor">
+				</div>
+				<div class="mui-content" style="display: flex;height: 90%;">
+					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
+						<div class="mui-content" style="display: flex;height: 100%;">
+							<div style="flex: 2;height: 100%;">
+								<p class="mui-text-center" style="color: black;margin-top: .5rem;">已选人员</p>
+								<div class="mui-content mui-scroll-wrapper" style="height: 90%;position: relative;">
+									<div class="mui-scroll">
+										<ul class="mui-table-view mui-grid-view">
+											<li class="mui-table-view-cell mui-media mui-col-xs-8" v-for="(selectAssessor,index) in selectAssessors" @tap="onTapCancleSelectAssessor(selectAssessor,index)">
+												<span style="font-size:1.5rem;color: black;" v-text="selectAssessor.name"></span>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div style="flex: 5;height: 100%;">
+								<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
+									<div class="mui-scroll">
+										<div class="mui-text-center" v-show="isData">没有数据</div>
+										<ul class="mui-table-view mui-grid-view">
+											<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(user,index) in users" @tap="onTapSelectAssessorItem(user,index)">
+												<div class="mui-card" style="   background: #535fcc;">
+													<div class="mui-card-header mui-card-media" :class="{isActive:user.isActive}">
+														<span style="font-size:1.5rem;color: white;" v-text="user.name"></span>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="indexed-list" style="flex: 1;margin: .5rem;">
+						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)" style="font-weight: bold;">{{letter.name}}</a>
+					</div>
+				</div>
+			</div>
+			<div id="areaPopover" class="mui-popover">
+				<div class="mui-input-row mui-search" style="width: 80%;margin: auto;margin-top: 1rem;">
+					<input type="search" class="" placeholder="">
+				</div>
+				<div class="mui-content" style="display: flex;height: 90%;">
+					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
+						<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
+							<div class="mui-scroll">
+								<!--<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										<label>&nbsp;&nbsp;</label><span>11111</span>
+									</li>
+								</ul>-->
+								<div class="mui-text-center" v-show="isData">没有数据</div>
+								<ul class="mui-table-view mui-grid-view">
+									<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(user,index) in users">
+										<div class="mui-card" style="   background: #535fcc;">
+											<div class="mui-card-header mui-card-media">
+												<span style="font-size:2rem;color: white;" v-text="user.name"></span>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="indexed-list" style="flex: 1;margin: .5rem;">
+						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)">{{letter.name}}</a>
+					</div>
+				</div>
+			</div>
+			<div id="productGroup" class="mui-popover">
+				<div class="mui-input-row mui-search" style="width: 80%;margin: auto;margin-top: 1rem;">
+					<input type="search" class="" placeholder="">
+				</div>
+				<div class="mui-content" style="display: flex;height: 90%;">
+					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
+						<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
+							<div class="mui-scroll">
+								<!--<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										<label>&nbsp;&nbsp;</label><span>11111</span>
+									</li>
+								</ul>-->
+								<div class="mui-text-center" v-show="isData">没有数据</div>
+								<ul class="mui-table-view mui-grid-view">
+									<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(user,index) in users">
+										<div class="mui-card" style="   background: #535fcc;">
+											<div class="mui-card-header mui-card-media">
+												<span style="font-size:2rem;color: white;" v-text="user.name"></span>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="indexed-list" style="flex: 1;margin: .5rem;">
+						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)">{{letter.name}}</a>
+					</div>
+				</div>
+			</div>
+			<div id="assessorProductPopover" class="mui-popover">
+				<div class="mui-input-row mui-search" style="width: 80%;margin: auto;margin-top: 1rem;">
+					<input type="search" class="" placeholder="">
+				</div>
+				<div class="mui-content" style="display: flex;height: 90%;">
+					<div class="mui-content" id="refreshData" style="flex:9;height: 100%;">
+						<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
+							<div class="mui-scroll">
+								<!--<ul class="mui-table-view">
+									<li class="mui-table-view-cell">
+										<label>&nbsp;&nbsp;</label><span>11111</span>
+									</li>
+								</ul>-->
+								<div class="mui-text-center" v-show="isData">没有数据</div>
+								<ul class="mui-table-view mui-grid-view">
+									<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(user,index) in users">
+										<div class="mui-card" style="   background: #535fcc;">
+											<div class="mui-card-header mui-card-media">
+												<span style="font-size:2rem;color: white;" v-text="user.name"></span>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="indexed-list" style="flex: 1;margin: .5rem;">
+						<a v-for="(letter,index) in letters" :class="{select_letter:letter.isSelect}" @tap="selectLetter(letter,index)">{{letter.name}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js"></script>
+		<script type="text/javascript" src="../../config.js"></script>
+		<script type="text/javascript" src="../../js/function.js"></script>
+		<script type="text/javascript" src="../../js/static.js"></script>
+		<script type="text/javascript">
+			//mui.init();
+			var mask = mui.createMask();
+			new Vue({
+				el: '#app',
+				data: {
+					letters: [],
+					users: [],
+					items: [],
+					user2: [],
+					isData: false,
+					assessor: '', //陪审人员模糊匹配
+					selectAssessors: [],
+					maps: new Map(),
+					datas: [],
+					listData: [],
+					formTitle: '',
+					lineTitle: '',
+					lineName: '',
+					lpaDate:'',		//审核日期
+					lpaUser:'',
+					classes:'',
+					options: [
+				      { text: '早班', value: '早班' },
+				      { text: '晚班', value: '晚班' }
+				    ]
+				},
+				computed: {
+					reMsg: function() {
+						// return this.msg.split('').reverse().join('')
+					}
+				},
+				mounted: function() {
+					mui.init({
+						swipeBack: false,
+						beforeback: function() {　　　　 //获得父页面的webview
+							var _ws = plus.webview.currentWebview().opener();　　　　 //触发父页面的自定义事件(refreshData),从而进行刷新
+							mui.fire(_ws, 'refreshData');
+							//返回true,继续页面关闭逻辑
+							return true;
+						}
+					});
+					var _this = this;
+					mui('.mui-scroll-wrapper').scroll({
+						indicators: true //是否显示滚动条
+					});
+					var oldback = mui.back;
+					mui.back = function() {
+						removeLsItem("lpaItemData");
+						oldback();
+					}
+					_this.users = [];
+					_this.user2 = _this.users;
+					if(_this.users.length < 1) {
+						_this.isData = false;
+					}
+					_this.initData();
+				},
+				methods: {
+					initData: function() {
+						var _this = this;
+						var _userData = JSON.parse(getLsItem("loginData"));
+						var _itemList = JSON.parse(getLsItem('itemList'));
+						//console.log(_itemList);
+						_this.lineTitle = _itemList.listName;
+						_this.lineName = _itemList.field01;
+						_this.lpaDate = (_itemList.workDate != null) ? FormatDateYMD(_itemList.workDate) : FormatDateYMD(new Date());
+						_this.lpaUser = _userData.userDescription;
+						_this.classes = _itemList.classes;
+						//console.log(_itemList);
+						//_this.formTitle = "产线:" + _itemList.field01 + " 区域:" + _itemList.field02 + " 工位:" + _itemList.field03;
+						mAjax(_url + 'hstserver/getPerItemDetail', {
+							userName: _userData.userName,
+							date: FormatDateYMD(_itemList.workDate),
+							listSubId: _itemList.listId,
+							createDate: _itemList.createDate == null ? dateFormat(new Date(), "YYYY-MM-DD hh:mm:ss") : FormatDateYMDHMS(_itemList.createDate)
+						}, function(data) {
+							//console.log(data);
+							var res = [];
+							var json = {};
+							for(var i = 0; i < data.data.length; i++) {
+								if(!json[data.data[i].childGroupBy]) {
+									res.push({
+										name: data.data[i].childGroupBy
+									});
+									json[data.data[i].childGroupBy] = 1;
+								}
+							}
+
+							//console.log(res[0])
+							for(var k = 0; k < res.length; k++) {
+								var _arr2 = [];
+								for(var i = 0; i < data.data.length; i++) {
+									if(data.data[i].childGroupBy == res[k].name) {
+										//console.log(res[k])
+										_arr2.push(data.data[i]);
+										res[k].data = _arr2;
+									}
+								}
+							}
+							_this.listData = res;
+							//console.log(_this.listData);
+						})
+					},
+					//合格
+					onTapOk: function(item, index) {
+						//console.log(item);
+						item.auditResult = "符合";
+						item.nOKStatus = "符合";
+						item.solveMethod = "符合";
+					},
+					//NA
+					onTapNa: function(item, index) {
+						item.auditResult = "不适用";
+						item.nOKStatus = "不适用";
+						item.solveMethod = "不适用";
+					},
+					//不符合项
+					onTapGoCross: function(item, index) {
+						//	console.log(item);
+						item.auditResult = "不符合";
+						item.nOKStatus = "不符合";
+						//return;
+						setLsItem("nowNokItemIndex", JSON.stringify(item.itemSubId));
+						//setLsItem("hstserverItemList",JSON.stringify(item));
+						if(getLsItem("lpaItemData") == undefined || getLsItem("lpaItemData") == '') {
+							var _arr = [];
+							var _obj = {};
+							_obj.nokItemIndex = item.itemSubId;
+							_obj.nokFormData = item;
+							_arr.push(_obj);
+							setLsItem("lpaItemData", JSON.stringify(_arr))
+						} else {
+							var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
+							//console.log(_lpaItemData);
+							//return;
+							var _obj = {};
+							_obj.nokItemIndex = item.itemSubId;
+							_obj.nokFormData = item;
+							//不会清空已审核的不合格内容
+							if(!arrContain(_lpaItemData, item.itemSubId)) {
+								_lpaItemData.push(_obj);
+							}
+							setLsItem("lpaItemData", JSON.stringify(_lpaItemData))
+						}
+						//return;
+
+						mui.openWindow({
+							url: 'itemDetail.html',
+							id: 'itemDetailone'
+						})
+					},
+					//陪审人员popover
+					onTapSelectAssessor: function() {
+						mui('#assessorPopover').popover('toggle', document.getElementById("assessor"));
+					},
+					//陪审人员搜索框
+					searchAssessor: function() {
+						var _this = this;
+						var _userData = _this.users;
+						var _search = _this.assessor;
+						if(_search != '') {
+							var _filterData = _userData.filter(function(item) {
+								return item.name.indexOf(_search) > -1;
+							});
+							_this.users = _filterData
+						} else {
+							_this.users = _this.user2
+						}
+						//console.log(JSON.stringify(_filterData));
+					},
+					//陪审popover点击项
+					onTapSelectAssessorItem: function(item, index) {
+						var _this = this;
+						item.isActive = !item.isActive;
+						if(item.isActive) {
+							_this.maps.set(item.id, item);
+						} else {
+							_this.maps.delete(item.id)
+						}
+						_this.selectAssessors = [];
+						_this.maps.forEach(function(value, key) {
+							_this.selectAssessors.push(value);
+						})
+						//console.log(_this.maps);
+					},
+					//左侧取消
+					onTapCancleSelectAssessor: function(item, index) {
+						var _this = this;
+						item.isActive = !item.isActive;
+						_this.maps.delete(item.id);
+						_this.selectAssessors = [];
+						_this.maps.forEach(function(value, key) {
+							_this.selectAssessors.push(value);
+						})
+					},
+					//选择区域名称
+					onTapSelectAreaName: function() {
+						//mui('#assessorPopover').popover('toggle', document.getElementById("assessor"));
+						mui('#areaPopover').popover('toggle');
+					},
+					//产品组
+					onTapSelectProductGroup: function() {
+						mui('#productGroup').popover('toggle');
+					},
+					//审核产品
+					onTapSelectAssessorProduct: function() {
+						mui('#assessorProductPopover').popover('toggle');
+					},
+
+					//选择字母
+					selectLetter: function(item1, index) {
+						var _this = this;
+						//console.log(item1.name);
+						item1.isSelect = true;
+						_this.letters.forEach(function(item2, index2) {
+							if(index == index2) {
+								//continue;
+							} else {
+								item2.isSelect = false;
+							}
+						})
+						//console.log(_this.user2)
+						_this.users = _this.user2;
+						_this.users = _this.onFilter(_this.users, item1);
+						//console.log(_this.onFilter(_this.users, item1))
+					},
+					//过滤器str.substr(0, 1)
+					onFilter: function(data, letter) {
+						var _this = this;
+						var _arr = data.filter(function(item) {
+							//console.log(item)
+							//return typeof item == 'number'; 
+							return item.egName.substr(0, 1).indexOf(letter.name.toLocaleLowerCase()) != -1;
+						});
+						if(_arr.length < 1) {
+							_this.isData = true;
+						} else {
+							_this.isData = false;
+						}
+						return _arr
+					},
+					//保存按钮
+					onTapSaveList: function() {
+						var _this = this;
+						var _userData = JSON.parse(getLsItem("loginData"));
+						var _itemList = JSON.parse(getLsItem('itemList'));
+						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
+						var _listData = _this.listData;
+						var _stepId = _itemList.stepId;
+						var _groupId = _itemList.groupId;
+						var _groupName = _itemList.groupName;
+						var _stepName = _itemList.stepName;
+						var _listSubId = _itemList.listId;
+						var _listName = _itemList.listName;
+						var _month = _itemList.month;
+						var _classes = _this.classes;
+						if(_classes == '' || _classes == null ){
+							mui.toast("请选择班组！！！");
+							return;
+						}
+						//console.log(_classes);
+						//return;
+						//var _cla
+						var _field01 = _itemList.field01;
+						/*var _field02 = _itemList.field02;
+						var _field03 = _itemList.field03;*/
+						var _createDate = (_itemList.createDate != null) ? FormatDateYMDHMS2(_itemList.createDate) : FormatDateYMDHMS2(new Date());
+						var _workDate = (_itemList.workDate != null) ? FormatDateYMD(_itemList.workDate) : FormatDateYMD(new Date());
+						var _arr = [];
+						for(var i = 0; i < _listData.length; i++) {
+							for(var j = 0; j < _listData[i].data.length; j++) {
+								_arr.push(_listData[i].data[j]);
+							}
+
+						}
+
+						if(getLsItem("lpaItemData") != null) {
+							for(var k = 0; k < _arr.length; k++) {
+								for(var n = 0; n < _lpaItemData.length; n++) {
+									if((_arr[k].itemSubId == _lpaItemData[n].nokFormData.itemSubId) && (_arr[k].auditResult == "不符合")) {
+										//console.log(111111);
+										_arr[k] = _lpaItemData[n].nokFormData
+									}
+								}
+							}
+						}
+						var _arr2 = [];
+						var cnt = 0;
+						_arr.forEach(function(item2, index) {
+							if(item2.auditResult == null) {
+								cnt++
+							}
+						})
+						if(cnt == 0) {
+							_arr.forEach(function(item1, index) {
+								//用法！！！
+								item1.auditorName = _userData.userDescription;
+								item1.auditor = _userData.userName;
+								item1.listName = _listName;
+								item1.classes = _classes;
+								item1.field01 = _field01;
+								/*item1.field02 = _field02;
+								item1.field03 = _field03;*/
+								item1.stepId = _stepId;
+								item1.stepName = _stepName;
+								item1.groupId = _groupId;
+								item1.groupName = _groupName;
+								item1.commissionAgent = _userData.userName;
+								item1.commissionAgentName = _userData.userDescription;
+								_arr2.push(item1);
+							})
+							var _xml = toXmlForDataFilters(_arr2);
+							//	console.log(_xml);
+							//return;
+							var _params = {
+								userName: _userData.userName,
+								workDate: _workDate,
+								listSubId: _listSubId,
+								createDate: _createDate,
+								workStation: 'pad',
+								xml: _xml
+							};
+							var _params1 = {
+								taskUsername: _userData.userName,
+								workDate: _workDate,
+								month: _month,
+								listName: _listName,
+								listId: _listSubId,
+								groupId: _groupId,
+								stepName: _stepName,
+								stepId: _stepId,
+								groupName: _groupName
+							};
+							mui.ajax(_url + 'hstserver/savePlanPerItemDetail', {
+								data: _params,
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型
+								//timeout:10000,//超时时间设置为10秒；      
+								beforeSend: function() {
+									plus.nativeUI.showWaiting("加载中。。。");
+									mask.show(); //显示遮罩层
+								},
+								complete: function() {
+									plus.nativeUI.closeWaiting();
+									mask.close(); //关闭遮罩层
+								},
+								success: function(data) {
+									if(data.success == 1) {
+										mui.ajax(_url + 'hstserver/saveResult', {
+											data: _params1,
+											dataType: 'json', //服务器返回json格式数据
+											type: 'post', //HTTP请求类型
+											//timeout:10000,//超时时间设置为10秒；      
+											beforeSend: function() {
+												plus.nativeUI.showWaiting("加载中。。。");
+												mask.show(); //显示遮罩层
+											},
+											complete: function() {
+												plus.nativeUI.closeWaiting();
+												mask.close(); //关闭遮罩层
+											},
+											success: function(data) {
+												if(data.success == 1) {
+													mui.toast('提交成功!');
+													removeLsItem("lpaItemData")
+													mui.back();
+												}
+											},
+											error: function(xhr, type, errorThrown) {
+												//console.log("===========失败");
+												mask.close(); //关闭遮罩层
+												mui.toast("连接网络失败！");
+											}
+										})
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//console.log("===========失败");
+									mask.close(); //关闭遮罩层
+									mui.toast("连接网络失败！");
+								}
+							})
+						} else {
+							mui.toast('您存在未审核项，请确认!');
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

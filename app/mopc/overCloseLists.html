@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" href="../../css/global.css" />
+		<style type="text/css">
+			.mui-table-view .mui-media-object {
+				line-height: 42px;
+				max-width: 5rem !important;
+				height: 42px;
+			}
+			
+			.wrapper-padding-top {
+				margin-top: 7vh;
+			}
+			
+			.md-media-obj {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				background-color: #6a9371;
+			}
+			
+			.md-media-obj2 {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				background-color: #4f6f90;
+			}
+			
+			.md-media-obj3 {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				background-color: #eaae58;
+			}
+			
+			.md-media-obj4 {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				background-color: rgb(199, 101, 225);
+			}
+			
+			.md-media-obj5 {
+				width: 5rem;
+				height: 5rem !important;
+				border-radius: 5rem;
+				background-color: #61c346;
+			}
+			
+			.md-changepoint {
+				font-size: 3vh;
+				color: white;
+				margin-left: 4.3vw;
+				line-height: 5rem;
+			}
+			
+			.md-media-body {
+				display: flex;
+				line-height: 2.4rem;
+				font-size: 2vh;
+				font-weight: 500;
+			}
+			
+			.form-item {
+				display: flex;
+				margin: 1rem;
+			}
+			
+			.item-flex {
+				flex: 1;
+			}
+			
+			.label-end {
+				text-align: right;
+			}
+			
+			.label-input-gray {
+				border: solid 1px !important;
+				background: #efeff4 !important;
+				border-color: #999 !important;
+				padding-left: 1rem !important;
+				color: gray;
+			}
+			
+			.md-title-right {
+				line-height: 44px;
+				padding-top: 20px;
+				color: white;
+				padding-left: 1rem;
+			}
+			
+			.mui-popover {
+				height: 430px;
+			}
+			
+			.md-media-obj-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: #6a9371;
+			}
+			
+			.md-media-obj2-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: #4f6f90;
+			}
+			
+			.md-media-obj3-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: #eaae58;
+			}
+			
+			.md-media-obj4-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: rgb(199, 101, 225);
+			}
+			
+			.md-media-obj5-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: #61c346;
+			}
+			
+			.md-media-obj6-2 {
+				width: 3rem;
+				height: 3rem !important;
+				border-radius: 3rem;
+				background-color: #d93434;
+			}
+			
+			.md-changepoint-2 {
+				font-size: 2vh;
+				color: white;
+				margin-left: 2.5vw;
+				line-height: 3rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" id="mopcClose">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title" id="title">已关闭清单</h1>
+				<a class=" mui-pull-right md-title-right icon-filter" href="#topPopover"></a>
+			</header>
+			<div id="pullrefresh">
+				<div class="mui-scroll-wrapper wrapper-padding-top">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell" v-for="(mopcData,index) in mopcDatas">
+								<a href="javascript:;">
+									<div class="mui-media-object mui-pull-left" v-bind:class="{'md-media-obj':mopcData.changePointType == '人', 'md-media-obj2':mopcData.changePointType =='机','md-media-obj3':mopcData.changePointType =='料','md-media-obj4':mopcData.changePointType =='法','md-media-obj5':mopcData.changePointType =='环'}">
+										<span class="md-changepoint" v-text="mopcData.changePointType"></span>
+									</div>
+									<div class="mui-media-body md-media-body">
+										<div style="flex: 1;">
+											<span v-text="FormatDateYMD(mopcData.createDate)"></span>
+											<div class="mui-ellipsis" v-text="mopcData.models+' '+mopcData.productName+  ' '+mopcData.station"></div>
+										</div>
+										<div style="flex: 1;">
+											<div class="mui-ellipsis">计划关闭日期：<span v-text="FormatDateYMD(mopcData.plansToCloseDate)"></span></div>
+										</div>
+
+									</div>
+									<div class="form-item">
+										<div class="mui-input-row item-flex">
+											<label class="label-end">创建日期:</label>
+											<input class="label-input-gray" type="text" readonly v-model="FormatDateYMD(mopcData.createDate)">
+										</div>
+										<div class="mui-input-row item-flex">
+											<label class="label-end">工序:</label>
+											<input class="label-input-gray" readonly type="text" v-model="mopcData.station">
+										</div>
+									</div>
+
+									<div class="form-item">
+										<div class="mui-input-row item-flex">
+											<label class="label-end">变化类型:</label>
+											<input class="label-input-gray" type="text" readonly v-model="mopcData.changePointType">
+										</div>
+										<div class="mui-input-row item-flex">
+											<label class="label-end">变化等级:</label>
+											<input class="label-input-gray" readonly type="text" v-model="mopcData.changePointLevel">
+										</div>
+									</div>
+									<div class="form-item">
+										<div class="mui-input-row item-flex">
+											<label class="label-end">一次 :</label>
+											<input style="font-size: .9rem;" class="label-input-gray" type="text" readonly v-model="FormatDateYMDHMS(mopcData.firstCloseTime).replace('T',' ')">
+										</div>
+										<div class="mui-input-row item-flex">
+											<label class="label-end">班长签名:</label>
+											<input class="label-input-gray" readonly type="text" v-model="mopcData.firstCloseUserName">
+										</div>
+									</div>
+									<div class="form-item">
+										<div class="mui-input-row item-flex">
+											<label class="label-end">二次:</label>
+											<input style="font-size: .9rem;" class="label-input-gray" type="text" readonly v-model="FormatDateYMDHMS(mopcData.secondCloseTime).replace('T',' ')">
+										</div>
+										<div class="mui-input-row item-flex">
+											<label class="label-end">主管签名:</label>
+											<input class="label-input-gray" readonly type="text" v-model="mopcData.secondCloseUserName">
+										</div>
+									</div>
+									<div>
+
+										<div style="margin-left: 2rem;">变化内容:</div>
+										<textarea id="remark" rows="5" style="margin-top: .5rem;" disabled v-model="mopcData.describe"></textarea>
+									</div>
+									<div>
+										<div style="margin-left: 2rem;">控制验证方法:</div>
+										<textarea id="remark" rows="5" style="margin-top: .5rem;" disabled v-model="mopcData.validationMethod"></textarea>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="topPopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell" v-for="(filterData,index) in filterDatas" @tap="onTapFilter(filterData)">
+								<a href="#">
+									<div class="mui-media-object mui-pull-left" v-bind:class="{'md-media-obj-2':filterData.type == '人', 'md-media-obj2-2':filterData.type =='机','md-media-obj3-2':filterData.type =='料','md-media-obj4-2':filterData.type =='法','md-media-obj5-2':filterData.type =='环','md-media-obj6-2':filterData.type =='all'}">
+										<span class="md-changepoint-2" v-text="filterData.type"></span>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js"></script>
+		<script type="text/javascript" src="../../config.js"></script>
+		<script type="text/javascript" src="../../js/function.js"></script>
+		<script type="text/javascript" src="../../js/static.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			new Vue({
+				el: '#mopcClose',
+				data: {
+					mopcDatas: {},
+					filterDatas: [{
+							id: 1,
+							type: 'all'
+						},
+						{
+							id: 2,
+							type: '人'
+						},
+						{
+							id: 3,
+							type: '机'
+						},
+						{
+							id: 4,
+							type: '料'
+						},
+						{
+							id: 5,
+							type: '法'
+						},
+						{
+							id: 6,
+							type: '环'
+						}
+					]
+				},
+				mounted: function() {
+					mui('.mui-scroll-wrapper').scroll({
+						indicators: true //是否显示滚动条
+					});
+					this.initData();
+				},
+				methods: {
+					initData: function() {
+						var _this = this;
+						mAjax(_url + "hstserver/getHistoryMOPCLists", {}, function(data) {
+							console.log(data.data);
+							_this.mopcDatas = data.data;
+						})
+					},
+					onTapFilter: function(item) {
+						var _this = this;
+						mui('#topPopover').popover("toggle");
+						mAjax(_url + "hstserver/getFilterMOPCLists", {
+							type: item.type
+						}, function(data) {
+							console.log(data.data);
+
+							_this.mopcDatas = data.data;
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

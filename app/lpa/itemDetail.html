@@ -1,0 +1,690 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/global.css" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" href="../../css/mui.imageview.css" />
+		<style type="text/css">
+			.mui-toast-container {
+				bottom: 50% !important;
+			}
+			
+			.mui-toast-message {
+				background: url(../../images/warning.png) no-repeat center 10px #92B0DE;
+				/*opacity: 0.6;*/
+				opacity: .9;
+				color: #000;
+				font-weight: 600;
+				width: 260px;
+				padding: 70px 5px 10px 5px;
+			}
+			
+			#rDepartmentType {
+				position: absolute;
+				left: 5% !important;
+				top: 10%;
+				width: 90%;
+				height: 80%;
+			}
+			
+			#rUsersData {
+				position: absolute;
+				left: 5% !important;
+				top: 10%;
+				width: 90%;
+				height: 80%;
+			}
+			
+			.del {
+				position: absolute;
+				top: 2px;
+				right: 9px;
+				display: block;
+				line-height: 1;
+				cursor: pointer;
+				color: #F10E0E;
+			}
+			
+			.btn_background {
+				/*background: #e94f4f !important;*/
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" id="app">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title" id="title">不符合项</h1>
+			</header>
+			<div class="mui-content" style="height: 100%;padding-bottom: 3.5rem;">
+				<div style="margin-top: .5rem;" style="">
+					<form class="mui-input-group" style="margin-bottom: .5rem;">
+						<div class="mui-input-row">
+							<label style="width: 17%;">项目名称:</label>
+							<input style="width: 83%;" type="text" placeholder="" readonly v-model="defectName">
+						</div>
+					</form>
+					<div class="mui-hidden">
+						<input type="text" v-model="isNC" readonly="">
+					</div>
+					<div class="mui-hidden">
+						<input type="text" v-model="isborder" readonly="">
+					</div>
+					<div class="mui-hidden">
+						<input type="text" v-model="solver" readonly="">
+					</div>
+					<div class="mui-hidden">
+						<input type="text" v-model="auditor" readonly="">
+					</div>
+					<div class="mui-hidden">
+						<input type="text" v-model="departmentName" readonly="">
+					</div>
+					<label style="margin-left: 1rem;">问题描述:</label>
+					<textarea id="remark" rows="5" style="margin-top: .5rem;" placeholder="描述" v-model="describe"></textarea>
+					<label style="margin-left: 1rem;">抑制措施:</label>
+					<textarea id="remark" rows="5" style="margin-top: .5rem;" placeholder="描述" v-model="actionMeasure"></textarea>
+					<form class="mui-input-group">
+						<div class="mui-input-row">
+							<label style="width: 25%;">责任部门:</label>
+							<input type="text" readonly placeholder="" v-model="station" style="width: 75%; background: url(../../images/arrow.png) right center no-repeat;" @tap="onTapOpenRDepartment">
+						</div>
+						<div class="mui-input-row">
+							<label style="width: 25%;">责任人员:</label>
+							<input type="text" readonly placeholder="" v-model="solverName" style="width: 75%;background: url(../../images/arrow.png) right center no-repeat;" @tap="onTapOpenUserData">
+						</div>
+					</form>
+					<div style="margin-left: 1rem;padding-top: .5rem;">改善前:</div>
+					<div style="padding-bottom: 1rem;">
+						<form class="mui-input-group" id="addForm" style="margin-top: .5rem;">
+							<div class="mui-row" style="">
+								<div class="mui-col-xs-2">
+									<img style="width: 110px;margin-top: .7rem;padding-right: .5rem;" src="../../images/iconfont-tianjia.png" @tap="upCamera" />
+								</div>
+								<div class="mui-col-xs-10">
+									<ul class="mui-table-view flex" style="width: 100%;height: 100%;display: flex;">
+										<li class="mui-table-view-cell " v-for="(img,index) in imgs">
+											<img style="width:100px;height:100px;background-size: 100px 100px;" :src="img.url" data-preview-src="" data-preview-group="1" />
+											<span class="icon-minus2 del" @tap="onTapDeleteItem(img,index)">
+			        		            </span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div style="margin-left: 1rem;padding-top: .5rem;">改善后:</div>
+					<div>
+						<form class="mui-input-group" id="addForm" style="margin-top: .5rem;">
+							<div class="mui-row" style="">
+								<div class="mui-col-xs-2">
+									<img style="width: 110px;margin-top: .7rem;padding-right: .5rem;" src="../../images/iconfont-tianjia.png" @tap="upCamera2" />
+								</div>
+								<div class="mui-col-xs-10">
+									<ul class="mui-table-view flex" style="width: 100%;height: 100%;display: flex;">
+										<li class="mui-table-view-cell " v-for="(img2,index) in imgs2">
+											<img style="width:100px;height:100px;background-size: 100px 100px;" :src="img2.url" data-preview-src="" data-preview-group="1" />
+											<span class="icon-minus2 del" @tap="onTapDeleteItem2(img2,index)">
+			        		            </span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+				<div style="position: fixed;
+				bottom: 0;
+				width: 100%;
+				text-align: center;
+				z-index: 998;
+				overflow: hidden;
+				-webkit-transition-duration: 300ms;
+				transition-duration: 300ms;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				background-color: gray;
+				display: flex;">
+					<button type="button" class="" style="flex: 1;padding-top: 1rem;padding-bottom: 1rem;background: #4291e7;color: white;font-weight: 700;" @tap="onTapQReform" :class="{btn_background:itemList.solveMethod == '当即整改'}">当即整改</button>
+					<button type="button" class="" style="flex: 1;padding-top: 1rem;padding-bottom: 1rem;background: #4291e7;color: white;font-weight: 700;" @tap="onTapLPAQ" :class="{btn_background:itemList.solveMethod == '分层审核问题'}">分层审核问题</button>
+				</div>
+			</div>
+			<div id="rDepartmentType" class="mui-popover">
+				<div class="mui-content" style="height: 90%;">
+					<div class="mui-content" id="refreshData" style="height: 100%;">
+						<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
+							<div class="mui-scroll">
+								<!--<div class="mui-text-center" v-show="isData">没有数据</div>-->
+								<ul class="mui-table-view mui-grid-view">
+									<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(department,index) in departments" @tap="onTapRDpeartment(department,index)">
+										<div class="mui-card" style="   background: #535fcc;">
+											<div class="mui-card-header mui-card-media">
+												<span style="font-size:1rem;color: white;" v-text="department.departmentName"></span>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="rUsersData" class="mui-popover">
+				<div class="mui-content" style="height: 90%;">
+					<div class="mui-content" id="refreshData" style="height: 100%;">
+						<div class="mui-content mui-scroll-wrapper" style="height: 100%;position: relative;">
+							<div class="mui-scroll">
+								<!--<div class="mui-text-center" v-show="isData">没有数据</div>-->
+								<ul class="mui-table-view mui-grid-view">
+									<li class="mui-table-view-cell mui-media mui-col-xs-4" v-for="(department,index) in allUsers" @tap="onTapUserData(department,index)">
+										<div class="mui-card" style="   background: #535fcc;">
+											<div class="mui-card-header mui-card-media">
+												<span style="font-size:1rem;color: white;" v-text="department.userDescription"></span>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js"></script>
+		<script type="text/javascript" src="../../config.js"></script>
+		<script type="text/javascript" src="../../js/static.js"></script>
+		<script type="text/javascript" src="../../js/function.js"></script>
+		<script type="text/javascript" src="../../js/mui.zoom.js"></script>
+		<script type="text/javascript" src="../../js/mui.previewimage.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var mask = mui.createMask();
+			mui.previewImage();
+			var app = new Vue({
+				el: '#app',
+				data: {
+					defectName: '',
+					describe: '',
+					actionMeasure: '',
+					station: '',
+					solverName: '',
+					isNC: 0,
+					isborder: 0,
+					solver: '', //工号
+					auditor: '',
+					departmentName: '',
+					isData: true,
+					departments: [],
+					itemList: '',
+					imgs: [],
+					imgs2: [],
+					allUsers: []
+				},
+				mounted: function() {
+					var _this = this;
+					mui('.mui-scroll-wrapper').scroll({
+						indicators: true //是否显示滚动条
+					});
+					if(mui.plus) {
+						_this.plusReady()
+					} else {
+						document.addEventListener("plusready", _this.plusReady, false)
+					}
+					//this.initData();
+				},
+				methods: {
+					plusReady: function() {
+						//plus.screen.lockOrientation("landscape-primary");
+						this.initData();
+					},
+					//初始化图片
+					initImags: function() {
+						var _this = this;
+						var _userData = JSON.parse(getLsItem("loginData"));
+						var _itemList = JSON.parse(getLsItem('itemList'));
+						var _createDate = (_itemList.createDate == null) ? FormatDateYMDHMS2(new Date()) : FormatDateYMDHMS2(_itemList.createDate);
+						var _nokItemIndex = JSON.parse(getLsItem("nowNokItemIndex"));
+						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
+						//console.log(JSON.stringify(_lpaItemData));
+						var _nowData = {};
+						for(var i = 0; i < _lpaItemData.length; i++) {
+							if(_lpaItemData[i].nokFormData.itemSubId == _nokItemIndex) {
+								_nowData = _lpaItemData[i].nokFormData;
+							}
+						}
+						var _id = _nowData.itemSubId + '' + _itemList.listId + '' + _itemList.stepId + '-' + _createDate;
+						//_this.itemList = _nowData;
+						//var _itemList2 = JSON.parse(getLsItem('itemList'));
+						//_this.extra.problemId = _this.itemNokData.fjId;
+						//_this.extra.userName = _userData.userName;
+						var _params = {
+							applicationType: '分层审核',
+							subID: _id,
+							workStation: 'pad',
+							operator: _userData.userName,
+							showType: 'listGrid',
+							modelType: '分层审核'
+						};
+						/*mAjax(_url + 'hstserver/getAttachment', _params, function(data) {
+							console.log(data);
+							if(data.success == 1) {
+								_this.imgs = data.data;
+							}
+						})*/
+						mui.ajax(_url + 'hstserver/getAttachment', {
+							data: _params,
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							//timeout:10000,//超时时间设置为10秒；      
+							beforeSend: function() {
+								plus.nativeUI.showWaiting("加载中。。。");
+								mask.show(); //显示遮罩层
+							},
+							complete: function() {
+								plus.nativeUI.closeWaiting();
+								mask.close(); //关闭遮罩层
+							},
+							success: function(data) {
+								if(data.success == 1) {
+									//console.log(JSON.stringify(data.data));
+									//_this.imgs = data.data;
+									var _data = data.data;
+									var _imgs1 = [];
+									var _imgs2 = [];
+									//console.log(_data[0].url);
+									//console.log(data.data[0].url.split('/')[6].substring(0,1) == 'h');
+									//处理图片
+									for(var i = 0; i < _data.length; i++) {
+										if(_data[i].url.split('/')[6].substring(0, 1) == 'h') {
+											_imgs1.push(_data[i]);
+										} else {
+											_imgs2.push(_data[i]);
+										}
+									}
+									_this.imgs = _imgs1;
+									_this.imgs2 = _imgs2;
+									//console.log(_this.imgs);
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+								//console.log("===========失败");
+								mask.close(); //关闭遮罩层
+								mui.toast("连接网络失败！");
+							}
+						})
+					},
+					initData: function() {
+						var _this = this;
+						//console.log(JSON.parse(getLsItem("hstserverItemList")));
+						var _userData = JSON.parse(getLsItem("loginData"));
+						var _itemList = JSON.parse(getLsItem('itemList'));
+						//var _itemData = JSON.parse(getLsItem("hstserverItemList"));
+						//console.log(_this.itemList);
+						var _nokItemIndex = JSON.parse(getLsItem("nowNokItemIndex"));
+						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
+						//console.log(JSON.stringify(_nokItemIndex));
+						var _nowData = {};
+						for(var i = 0; i < _lpaItemData.length; i++) {
+							//console.log(_lpaItemData[i].nokFormData);
+							if(_lpaItemData[i].nokFormData.itemSubId == _nokItemIndex) {
+								_nowData = _lpaItemData[i].nokFormData;
+							}
+						}
+						_this.itemList = _nowData;
+						//console.log(_this.itemList);
+						//console.log(_lpaItemData);
+						_this.defectName = _this.itemList.itemName;
+						_this.describe = _this.itemList.field08;
+						_this.actionMeasure = _this.itemList.actionMeasure;
+						_this.station = _this.itemList.station;
+						_this.solverName = _this.itemList.solverName;
+						_this.solver = _this.itemList.solver;
+						mAjax(_url + "hstserver/getAllDepartments", {
+							//factoryId: _userData.factoryId
+						}, function(data) {
+							_this.departments = data.data;
+							console.log(JSON.stringify(data.data));
+						})
+						_this.initImags();
+						//已审核。只需获取图片接口即可
+						/*if(_itemData.solveMethod != '' && _itemData.solveMethod != null){
+							console.log(1111);
+							
+							_this.describe = _itemData.describe;
+							_this.actionMeasure = _itemData.actionMeasure;
+							_this.station = _itemData.station;
+							_this.solverName = _itemData.solverName;
+						}else if((_itemData.solveMethod == '' || _itemData.solveMethod == null) && _itemData.auditResult == '不符合'){
+								var _params = {
+								createDate : _itemList.createDate == FormatDateYMDHMS(new Date()) ? '' : _itemList.createDate,
+								workDate : FormatDateYMD(_itemList.workDate),
+								auditorId : _itemList.userName,
+								stepId : _itemList.stepId,
+								groupId :_itemList.groupId,
+								listSubId : _itemList.listSubId,
+								itemSubId : _itemData.itemSubId
+							}
+							mAjax(_url+"hstserver/getListItemRecord",_params,function(data){
+								//console.log(data);
+								_this.describe = data.data.describe;
+								_this.actionMeasure = data.data.actionMeasure;
+								_this.station = data.data.station;
+								_this.solverName = data.data.solverName;
+								//console.log(data);
+							})
+						}*/
+						/*var _params = {
+							createDate : _createDate,
+							workDate : _workDate,
+							auditorId : $userName,
+							stepId : _stepId,
+							groupId : _groupId,
+							listSubId : _listSubId,
+							itemSubId : _itemSubId
+						}
+						mAjax(_url+"hstserver/getListItemRecord",_params,function(data){
+							
+						})*/
+					},
+					onTapOpenRDepartment: function() {
+						//mui('#rDepartmentType').popover('toggle')
+						mui('#rDepartmentType').popover("toggle");
+					},
+					onTapRDpeartment: function(item, index) {
+						var _this = this;
+						_this.station = item.departmentName;
+						var _userData = JSON.parse(getLsItem("loginData"));
+						//获取对应人员
+						//根据部门抓取对应人员
+						mAjax(_url + "hstserver/getAllUsersByFactory", {
+							departmentId: item.departmentId
+						}, function(data) {
+							//console.log(JSON.stringify(data.data));
+							_this.allUsers = data.data;
+							//console.log(data);
+						})
+						mui('#rDepartmentType').popover("toggle");
+					},
+					onTapOpenUserData: function() {
+						mui('#rUsersData').popover("toggle");
+					},
+					onTapUserData: function(item, index) {
+						this.solverName = item.userDescription;
+						this.solver = item.userNo;
+						mui('#rUsersData').popover("toggle");
+					},
+
+					//当即整改
+					onTapQReform: function() {
+						var _this = this;
+						var _nokItemIndex = JSON.parse(getLsItem("nowNokItemIndex"));
+						_this.itemList.field08 = _this.describe;
+						_this.itemList.actionMeasure = _this.actionMeasure;
+						_this.itemList.station = _this.station;
+						_this.itemList.solverName = _this.solverName;
+						_this.itemList.solver = _this.solver;
+						_this.itemList.solveMethod = "当即整改";
+						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
+						var _nowData = {};
+						for(var i = 0; i < _lpaItemData.length; i++) {
+							if(_lpaItemData[i].nokItemIndex == _nokItemIndex) {
+								_lpaItemData[i].nokFormData = _this.itemList;
+							}
+						}
+
+						//_this.itemNokData = '';
+						setLsItem("lpaItemData", JSON.stringify(_lpaItemData));
+						//console.log(JSON.parse(getLsItem("lpaItemData")));
+						//return;
+						//if(app.$data.imgs.length > 0){
+						_this.saveImgs();
+						_this.saveImgs2();
+						//}
+
+					},
+					//上升问题流
+					onTapLPAQ: function() {
+						var _this = this;
+						/*mui.toast("DEMO版本无此功能！！！",{duration:'short',type:'div'});
+						return;*/
+						var _nokItemIndex = JSON.parse(getLsItem("nowNokItemIndex"));
+						_this.itemList.field08 = _this.describe;
+						_this.itemList.actionMeasure = _this.actionMeasure;
+						_this.itemList.station = _this.station;
+						_this.itemList.solverName = _this.solverName;
+						_this.itemList.solver = _this.solver;
+						//_this.itemList.classes = _this.classes;
+						_this.itemList.solveMethod = "分层审核问题";
+						//_this.itemList.nOKStatus = "分层审核问题";
+						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
+						var _nowData = {};
+						for(var i = 0; i < _lpaItemData.length; i++) {
+							if(_lpaItemData[i].nokItemIndex == _nokItemIndex) {
+								_lpaItemData[i].nokFormData = _this.itemList;
+							}
+						}
+						setLsItem("lpaItemData", JSON.stringify(_lpaItemData));
+						//console.log(JSON.parse(getLsItem("lpaItemData")));
+						//return;
+						//if(app.$data.imgs.length > 0){
+						_this.saveImgs();
+						_this.saveImgs2();
+						//}
+
+					},
+					//
+					//上传图片
+					upCamera: function() {
+						//console.log(1234567);
+						var _this = this;
+						var _index = 1;
+						//console.log(_this.imgs);
+						if(app.$data.imgs.length < 3) {
+							/*getImage(function(data) {
+								var fileName = data.substring(data.lastIndexOf("/") + 1, data.lastIndexOf("?"));
+								app.$data.imgs.push({
+									name: fileName,
+									url: data,
+									isSave: 0
+								})
+							}, 'hst' + new Date().getTime())*/
+							getImgMethod("选择图片", function(data) {
+								var fileName = data.substring(data.lastIndexOf("/") + 1, data.lastIndexOf("?"));
+								app.$data.imgs.push({
+									name: fileName,
+									url: data,
+									isSave: 0
+								})
+							}, 'hst' + new Date().getTime());
+						} else {
+							mui.toast("最多只能上传3张");
+						}
+					},
+					//改善后
+					upCamera2: function() {
+						//console.log(1234567);
+						var _this = this;
+						var _index = 1;
+						//console.log(_this.imgs);
+						if(app.$data.imgs2.length < 3) {
+							getImgMethod("选择图片", function(data) {
+								var fileName = data.substring(data.lastIndexOf("/") + 1, data.lastIndexOf("?"));
+								app.$data.imgs2.push({
+									name: fileName,
+									url: data,
+									isSave: 0
+								})
+							}, 'modhst' + new Date().getTime());
+						} else {
+							mui.toast("最多只能上传3张");
+						}
+					},
+					saveImgs: function() {
+						var _this = this;
+						var files = app.$data.imgs;
+						plus.nativeUI.showWaiting("保存中。。。");
+						var _userData = JSON.parse(getLsItem("loginData"));
+						var _itemList = JSON.parse(getLsItem('itemList'));
+						var _subId = _this.itemList.subId;
+						if(_subId == undefined) {
+							_subId = -1
+						}
+						var _nokItemIndex = JSON.parse(getLsItem("nowNokItemIndex"));
+						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
+						var _createDate = _itemList.createDate != null && _itemList.createDate != '' ? FormatDateYMDHMS2(_itemList.createDate) : '';
+						var task = plus.uploader.createUpload(_url + 'hstserver/upload', {
+								method: "POST"
+							},
+							function(t, status) { //上传完成
+								//console.log(t.responseText+"---------"+status);
+								if(status == 200) {
+									plus.nativeUI.toast(JSON.parse(t.responseText).msg);
+									plus.nativeUI.closeWaiting();
+									mui.back();
+								} else {
+									plus.nativeUI.alert("上传失败：" + status);
+									plus.nativeUI.closeWaiting();
+								}
+							}
+						);
+						task.addData("subId", _subId + '');
+						task.addData("userName", _userData.userName);
+						task.addData("itemType", '分层审核');
+						task.addData("fileDir", 'lpa'); //192.168.20.88:8089
+						//task.addData("itemType", "分层审核");
+
+						if(_createDate == '') {
+							task.addData("correspondingNo", 'noSave-' + _this.itemList.itemSubId + _itemList.listId + _itemList.stepId);
+							_createDate = FormatDateYMDHMS2(new Date())
+						} else {
+							task.addData("correspondingNo", _this.itemList.itemSubId + _itemList.listId + _itemList.stepId + "-" + (_createDate != '' && _createDate != null ? _createDate : ''));
+						}
+						task.addData("url", 'http://192.168.75.223:8080/HSTSERVERHSTWST/' + 'upload/lpa/'); // 192.168.75.223:8080
+						for(var i = 0; i < files.length; i++) {
+							var f = files[i];
+							//console.log(33333);
+							task.addFile(f.url, {
+								key: f.name
+							});
+						}
+						task.start();
+					},
+					saveImgs2: function() {
+						var _this = this;
+						var files = app.$data.imgs2;
+						plus.nativeUI.showWaiting("保存中。。。");
+						var _userData = JSON.parse(getLsItem("loginData"));
+						var _itemList = JSON.parse(getLsItem('itemList'));
+						var _subId = _this.itemList.subId;
+						if(_subId == undefined) {
+							_subId = -1
+						}
+						var _nokItemIndex = JSON.parse(getLsItem("nowNokItemIndex"));
+						var _lpaItemData = JSON.parse(getLsItem("lpaItemData"));
+						var _createDate = _itemList.createDate != null && _itemList.createDate != '' ? FormatDateYMDHMS2(_itemList.createDate) : '';
+						var task = plus.uploader.createUpload(_url + 'hstserver/upload', {
+								method: "POST"
+							},
+							function(t, status) { //上传完成
+								//console.log(t.responseText+"---------"+status);
+								if(status == 200) {
+									plus.nativeUI.toast(JSON.parse(t.responseText).msg);
+									plus.nativeUI.closeWaiting();
+									mui.back();
+								} else {
+									plus.nativeUI.alert("上传失败：" + status);
+									plus.nativeUI.closeWaiting();
+								}
+							}
+						);
+						task.addData("subId", _subId + '');
+						task.addData("userName", _userData.userName);
+						task.addData("itemType", '分层审核');
+						task.addData("fileDir", 'lpa'); //192.168.20.88:8089
+						//task.addData("itemType", "分层审核");
+
+						if(_createDate == '') {
+							task.addData("correspondingNo", 'noSave-' + _this.itemList.itemSubId + _itemList.listId + _itemList.stepId);
+							_createDate = FormatDateYMDHMS2(new Date())
+						} else {
+							task.addData("correspondingNo", _this.itemList.itemSubId + _itemList.listId + _itemList.stepId + "-" + (_createDate != '' && _createDate != null ? _createDate : ''));
+						}
+						task.addData("url", 'http://192.168.75.223:8080/HSTSERVERHSTWST/' + 'upload/lpa/');
+						for(var i = 0; i < files.length; i++) {
+							var f = files[i];
+							//console.log(33333);
+							task.addFile(f.url, {
+								key: f.name
+							});
+						}
+						task.start();
+					},
+					onTapDeleteItem: function(item, index) {
+						var _this = this;
+						if(item.isSave == 0) {
+							app.$data.imgs.splice(index, 1);
+							//return;
+						} else {
+							//数据库删除
+							mui.confirm("删除图片", "删除", ["确定", "取消"], function(e) {
+								if(e.index == 0) {
+									var params = {
+										imgUrl: item.url
+									}
+									mAjax(_url + 'hstserver/execute', params, function(data) {
+										//console.log(data);
+										if(data.success == 1) {
+											mui.toast("删除成功！");
+											plus.webview.currentWebview().reload(true);
+										}
+									})
+								}
+							})
+						}
+					},
+					onTapDeleteItem2: function(item, index) {
+						var _this = this;
+						if(item.isSave == 0) {
+							app.$data.imgs2.splice(index, 1);
+							//return;
+						} else {
+							//数据库删除
+							mui.confirm("删除图片", "删除", ["确定", "取消"], function(e) {
+								if(e.index == 0) {
+									var params = {
+										imgUrl: item.url
+									}
+									mAjax(_url + 'hstserver/execute', params, function(data) {
+										//console.log(data);
+										if(data.success == 1) {
+											mui.toast("删除成功！");
+											plus.webview.currentWebview().reload(true);
+										}
+									})
+								}
+							})
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>
