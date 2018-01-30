@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" href="css/global.css" />
+		<style type="text/css">
+			.wrapper-padding-top {
+				padding-top: 6.5vh !important;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-object {
+				width: 100%;
+				max-width: 100%;
+				height: auto;
+				/*border-radius: 100%;*/
+				background-color: #5d9ce1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title" id="title">首页</h1>
+			</header>
+			<div id="slider" class="mui-slider  wrapper-padding-top">
+				<div class="mui-slider-group mui-slider-loop">
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/three.jpg">
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/one.jpg">
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/two.jpg">
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/three.jpg">
+						</a>
+					</div>
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/one.jpg">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<div>
+				<ul class="mui-table-view mui-grid-view mui-grid-9 wrapper-padding-top">
+					<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" id="lpa">
+						<a href="#">
+							<div class="mui-media-object"><div id="">
+								<span class="icon-calendar" style="font-size: 5vh;
+    color: #f7f7f7;
+    line-height: 6rem;"></span>
+							</div></div>
+							<div style="    font-size: 2vh;
+	    	        	 padding-top: 1vh;
+    padding-bottom: 2vh;" class="mui-media-body">分层审核</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" id="lpaList">
+						<a href="#">
+							<div class="mui-media-object"><span class="icon-paste" style="    font-size: 5vh;
+    color: #f7f7f7;
+    line-height: 6rem;"></span></div>
+							<div style="    font-size: 2vh;
+	    	        	 padding-top: 1vh;
+    padding-bottom: 2vh;" class="mui-media-body">变更点管理</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/function.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			var slider = mui("#slider");
+			slider.slider({
+				interval: 3000
+			});
+			//首次运行
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					//自动更新
+					mui.getJSON("manifest.json", null, function(data) {
+						update(data.version.name);
+					});
+					firstRunApp();
+				});
+			} else {}
+			document.getElementById("lpa").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'lpaLogin.html',
+					id: 'lpaLogin'
+				});
+			});
+
+			document.getElementById("lpaList").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'mopcLogin.html',
+					id: 'mopcLogin'
+				});
+			});
+			//首次启动
+			function firstRunApp() {
+				//读取本地存储，检查是否为首次启动
+				var showGuide = plus.storage.getItem("lauchFlag");
+				if(showGuide) {
+					//有值，说明已经显示过了，无需显示；
+					//关闭splash页面；
+					plus.navigator.closeSplashscreen();
+					plus.navigator.setFullscreen(false);
+				} else {
+					//显示启动导航
+					mui.openWindow({
+						id: 'guide',
+						url: 'setting/guide.html',
+						styles: {
+							popGesture: "none"
+						},
+						show: {
+							aniShow: 'none'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				}
+			}
+		</script>
+	</body>
+
+</html>
